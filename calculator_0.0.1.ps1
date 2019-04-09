@@ -1,13 +1,21 @@
-param($operation, $num1string, $num2string)
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateSet('+', '-', '*', '/')]
+    [string] $operation = "+", 
+    [Parameter(Mandatory=$true)]
+    [double] $num1string, 
+    [Parameter(Mandatory=$true)]
+    [double] $num2string
+)
 
 #Check if variables used in this script are valid:
-$num1 = $num1String -as [Double]
-$ok1 = $num1 -ne $NULL
+# double and not null are now enforced on parameter level
+#$num1 = $num1String -as [Double]
+#$ok1 = $num1 -ne $NULL
+#$num2 = $num2String -as [Double]
+#$ok2 = $num2 -ne $NULL
 
-$num2 = $num2String -as [Double]
-$ok2 = $num2 -ne $NULL
-
-if ( -not $ok1 -or -not $ok2) { 
+if (-not $ok1 -or -not $ok2) { 
     write-warning 'You must enter a numeric value' 
     Exit 
 }
@@ -24,8 +32,8 @@ if ($operation -eq '+') {
 } elseif ($operation -eq '/') {
     if ($num2 -eq '0') {
     Write-Host 'You cannot divide by zero!'
-    } else 
-        {Write-Host 'Result: ' ($num1 / $num2) 
+    } else {
+        Write-Host 'Result: ' ($num1 / $num2) 
     }
 
 } else {
