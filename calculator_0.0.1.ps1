@@ -1,24 +1,13 @@
 param(
     [Parameter(Mandatory=$true)]
     [ValidateSet('+', '-', '*', '/')]
-    [string] $operation = "+", 
+    [String] $operation = "+", 
     [Parameter(Mandatory=$true)]
-    [double] $num1string, 
+    [Double] $num1, 
     [Parameter(Mandatory=$true)]
-    [double] $num2string
+    [Double] $num2
 )
-
-#Check if variables used in this script are valid:
-# double and not null are now enforced on parameter level
-#$num1 = $num1String -as [Double]
-#$ok1 = $num1 -ne $NULL
-#$num2 = $num2String -as [Double]
-#$ok2 = $num2 -ne $NULL
-
-if (-not $ok1 -or -not $ok2) { 
-    write-warning 'You must enter a numeric value' 
-    Exit 
-}
+# double and not null are enforced on parameter level
 
 if ($operation -eq '+') {
     Write-Host 'Result: ' ($num1 + $num2)
