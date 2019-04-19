@@ -13,15 +13,14 @@ Param(
 )
 
 # Connect to Azure with an authenticated account
-Connect-AzureRmAccount 
+# Connect-AzureRmAccount 
 
 # Check if the resource group already exists
 $exists = Get-AzureRmResourceGroup `
     -ResourceGroupName $ResourceGroupName 
 if ($exists) {
     Write-Host "Resource group already exists"
-}
-else {
+} else {
     Write-Host "Create new resource group"
     
     New-AzureRmResourceGroup `
@@ -30,13 +29,15 @@ else {
 }
 
 # Check if the VM already exists
-$exists = Get-AzureRmVm `
+try {
+    $vmexists = Get-AzureRmVm `
     -ResourceGroupName $ResourceGroupName `
-    -VMName $VMName
-if ($exists) {
-    Write-Error "A VM named $VMName already exists"
+    -VMName $VMName `
+    -ErrorAction SilentlyContinue
+} catch {
 }
-else {
+
+if (-not $vmexists) {
     # Set the username and password needed for the administrator account 
     $cred = Get-Credential
 
@@ -48,8 +49,7 @@ else {
      -VirtualNetworkName "myVnet" `
      -SubnetName "mySubnet" `
      -SecurityGroupName "myNSG" `
-     -PublicIpAddressName "myPublicIpAddress" `
-     -OpenPorts 80,3389 `
+     -PublicIpAddressName "myPublicIpAddress$VMName" ` 
      -Credential $cred 
 
     # Resize a VM
@@ -65,4 +65,6 @@ else {
     Stop-AzureRmVM `
      -ResourceGroupName $ResourceGroupName `
      -Name $VMName -Force
+} else {
+    Write-Error "VM already exists"
 }
