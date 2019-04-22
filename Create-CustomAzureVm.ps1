@@ -49,7 +49,7 @@ if (-not $vmexists) {
      -VirtualNetworkName "myVnet" `
      -SubnetName "mySubnet" `
      -SecurityGroupName "myNSG" `
-     -PublicIpAddressName "myPublicIpAddress$VMName" ` 
+     -PublicIpAddressName "myPublicIpAddress$VMName" `
      -Credential $cred 
 
     # Resize a VM
