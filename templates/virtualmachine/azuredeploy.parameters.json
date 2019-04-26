@@ -3,15 +3,12 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "string",
-            "defaultValue": "West Europe"
+            "value": "West Europe"
         },
         "virtualMachineName": {
-            "type": "string",
-            "defaultValue": "FirstVM"
+            "value": "FirstVM"
         },
         "adminUsername": {
-            "type": "string",
             "value": "kk.admin"
         },
         "adminPassword": {
