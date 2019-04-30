@@ -43,8 +43,8 @@
        "publicIpAddressType": "Dynamic",
        "publicIpAddressSku": "Basic",
                "osDiskType": "Premium_LRS",
-               "diagnosticsStorageAccountName": "[concat(parameters('virtualMachineRG'), 'diag')]",
-       "diagnosticsStorageAccountId": "[concat(parameters('virtualMachineRG'), 'diagid')]",
+               "diagnosticsStorageAccountName": "[concat(toLower(parameters('virtualMachineRG')), 'diag')]",
+       "diagnosticsStorageAccountId": "[concat(toLower(parameters('virtualMachineRG')), 'diagid')]",
        "diagnosticsStorageAccountType": "Standard_LRS",
        "diagnosticsStorageAccountKind": "Storage",
 
