@@ -46,10 +46,10 @@ if (-not $vmexists) {
      -ResourceGroupName $ResourceGroupName `
      -Name $VMName `
      -Location $location `
-     -VirtualNetworkName "myVnet" `
-     -SubnetName "mySubnet" `
-     -SecurityGroupName "myNSG" `
-     -PublicIpAddressName "myPublicIpAddress$VMName" `
+     -VirtualNetworkName "$ResourceGroupName-Vnet" `
+     -SubnetName "$ResourceGroupName-Subnet" `
+     -SecurityGroupName "$VMName-NSG" `
+     -PublicIpAddressName "$VMName-ip" `
      -Credential $cred 
 
     # Resize a VM
