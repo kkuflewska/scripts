@@ -3,53 +3,54 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "string",
-            "metadata": {
-                "description": "Location for all resources."
-            }
+            "type": "string"
         },
         "virtualMachineName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name for the VM."
-            }
+            "type": "string"
+        },
+        "virtualMachineRG": {
+            "type": "string"
+        },
+        "virtualMachineSize": {
+            "type": "string"
         },
         "adminUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "Username for the VM."
-            }
+            "type": "string"
         },
         "adminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Password for the VM."
-            }
+            "type": "secureString"
         }
     },
     "variables": {
 
-        "networkInterfaceName": "firstvm169",
-        "networkSecurityGroupName": "FirstVM-nsg",
-        "networkSecurityGroupRules": [],
-        "virtualNetworkName": "FirstResGroup-vnet",
-        "addressPrefixes": "10.0.0.0/24",
-        "subnetName": "default",
-        "subnetPrefix": "10.0.0.0/24",
-        "publicIpAddressName": "FirstVM-ip",
-        "publicIpAddressType": "Dynamic",
-        "publicIpAddressSku": "Basic",
-        "virtualMachineRG": "FirstResGroup",
-        "osDiskType": "Premium_LRS",
-        "virtualMachineSize": "Standard_B1s",
-        "diagnosticsStorageAccountName": "firstresgroupdiag467",
-        "diagnosticsStorageAccountId": "Microsoft.Storage/storageAccounts/firstresgroupdiag467",
-        "diagnosticsStorageAccountType": "Standard_LRS",
-        "diagnosticsStorageAccountKind": "Storage",
+       "networkInterfaceName": "[concat(parameters('virtualMachineName'))]",
+       "networkSecurityGroupName": "[concat(parameters('virtualMachineName'), '-nsg')]", 
+       "networkSecurityGroupRules": [],
+       "subnetName": "default",
+       "virtualNetworkName": "[concat(parameters('virtualMachineRG'), '-vnet')]",
+       "addressPrefixes": [
+               "10.0.0.0/24"
+           ],
+       "subnets": [
+               {
+                   "name": "default",
+                   "properties": {
+                       "addressPrefix": "10.0.0.0/24"
+                   }
+               }
+           ],
+       "publicIpAddressName": "[concat(parameters('virtualMachineName'), '-nsg')]",
+       "publicIpAddressType": "Dynamic",
+       "publicIpAddressSku": "Basic",
+               "osDiskType": "Premium_LRS",
+               "diagnosticsStorageAccountName": "[concat(parameters('virtualMachineRG'), 'diag')]",
+       "diagnosticsStorageAccountId": "[concat(parameters('virtualMachineRG'), 'diagid')]",
+       "diagnosticsStorageAccountType": "Standard_LRS",
+       "diagnosticsStorageAccountKind": "Storage",
 
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-        "subnetRef": "[concat(variables('vnetId'), variables('subnetName'))]"
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
     },
     "resources": [
         {
@@ -100,12 +101,12 @@
                 "addressSpace": {
                     "addressPrefixes": "[variables('addressPrefixes')]"
                 },
-                "subnets": "[variables('subnetName')]"
+                "subnets": "[variables('subnets')]"
             }
         },
         {
             "name": "[variables('publicIpAddressName')]",
-            "type": "Microsoft.Network/expressRouteCircuits",
+            "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2018-08-01",
             "location": "[parameters('location')]",
             "properties": {
@@ -126,11 +127,11 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[variables('virtualMachineSize')]"
+                    "vmSize": "[parameters('virtualMachineSize')]"
                 },
                 "storageProfile": {
                     "osDisk": {
-                        "createOption": "FromImage",
+                        "createOption": "fromImage",
                         "managedDisk": {
                             "storageAccountType": "[variables('osDiskType')]"
                         }

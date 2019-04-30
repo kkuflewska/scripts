@@ -3,16 +3,22 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "West Europe"
+            "value": "northeurope"
         },
         "virtualMachineName": {
-            "value": "FirstVM"
+            "value": "vmka"
+        },
+        "virtualMachineRG": {
+            "value": "LabsResGroup"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B1s"
         },
         "adminUsername": {
             "value": "kk.admin"
         },
         "adminPassword": {
-            "type": "securestring"
+            "value": null
         }
     }
 }
