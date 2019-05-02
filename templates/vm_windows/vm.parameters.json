@@ -6,7 +6,7 @@
             "value": "northeurope"
         },
         "virtualMachineName": {
-            "value": "vmka"
+            "value": "vm3"
         },
         "virtualMachineRG": {
             "value": "LabsResGroup"
@@ -18,7 +18,12 @@
             "value": "kk.admin"
         },
         "adminPassword": {
-            "value": null
+            "reference": {
+              "keyVault": {
+                "id": "/subscriptions/0bf50afc-0ad5-4e6e-b5ce-edc45ecf8a74/resourcegroups/LabsResGroup/providers/Microsoft.KeyVault/vaults/LabsRGKeyVault"
+              }, 
+              "secretName": "adminpassword"
+            }
         }
     }
 }

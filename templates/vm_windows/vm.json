@@ -18,7 +18,7 @@
             "type": "string"
         },
         "adminPassword": {
-            "type": "secureString"
+            "type": "securestring"
         }
     },
     "variables": {
@@ -39,7 +39,7 @@
                    }
                }
            ],
-       "publicIpAddressName": "[concat(parameters('virtualMachineName'), '-nsg')]",
+       "publicIpAddressName": "[concat(parameters('virtualMachineName'), '-ip')]",
        "publicIpAddressType": "Dynamic",
        "publicIpAddressSku": "Basic",
                "osDiskType": "Premium_LRS",
@@ -48,8 +48,8 @@
        "diagnosticsStorageAccountType": "Standard_LRS",
        "diagnosticsStorageAccountKind": "Storage",
 
-        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
-        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+       "nsgId": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
     },
     "resources": [
@@ -131,7 +131,7 @@
                 },
                 "storageProfile": {
                     "osDisk": {
-                        "createOption": "fromImage",
+                        "createOption": "FromImage",
                         "managedDisk": {
                             "storageAccountType": "[variables('osDiskType')]"
                         }

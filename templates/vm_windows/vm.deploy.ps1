@@ -1,22 +1,22 @@
 param(
  [Parameter(Mandatory=$true)]
- [string] $templateFilePath,
+ [string] $TemplateFilePath,
 
  [Parameter(Mandatory=$true)]
- [string] $parametersFilePath,
+ [string] $ParametersFilePath,
 
  [Parameter(Mandatory=$True)]
  [string] $resourceGroupName,
 
+ [Parameter(Mandatory=$True)]
  [string] $resourceGroupLocation,
 
  [Parameter(Mandatory=$True)]
- [string] $deploymentName
+ [string] $DeploymentName
 )
 
 
 $ErrorActionPreference = "Stop"
-
 
 #Create or check for existing resource group
 $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
@@ -35,8 +35,12 @@ else{
 
 # Start the deployment
 Write-Host "Starting deployment...";
-if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
+if ((Test-Path $TemplateFilePath) -and (Test-Path $ParametersFilePath)) {
+    New-AzureRmDeployment `
+    -Name $DeploymentName `
+    -Location $resourceGroupLocation `
+    -TemplateFile $TemplateFilePath `
+    -TemplateParameterFile $ParametersFilePath
 } else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $templateFilePath;
+    Write-Error "One of required files was not found"
 }
