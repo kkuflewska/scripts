@@ -6,7 +6,7 @@
             "value": "northeurope"
         },
         "virtualMachineName": {
-            "value": "vm3"
+            "value": "vm1"
         },
         "virtualMachineRG": {
             "value": "LabsResGroup"
