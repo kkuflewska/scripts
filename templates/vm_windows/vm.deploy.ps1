@@ -36,9 +36,9 @@ else{
 # Start the deployment
 Write-Host "Starting deployment...";
 if ((Test-Path $TemplateFilePath) -and (Test-Path $ParametersFilePath)) {
-    New-AzureRmDeployment `
+    New-AzureRmResourceGroupDeployment `
     -Name $DeploymentName `
-    -Location $resourceGroupLocation `
+    -ResourceGroupName $resourceGroupName `
     -TemplateFile $TemplateFilePath `
     -TemplateParameterFile $ParametersFilePath
 } else {
