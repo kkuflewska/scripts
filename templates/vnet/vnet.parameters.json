@@ -6,7 +6,7 @@
             "value": "VNet1"
         },
         "resourceGroup": {
-            "value": "PSResGroup"
+            "value": "NEDCDevOps-Learning"
         },
         "location": {
             "value": "westeurope"
