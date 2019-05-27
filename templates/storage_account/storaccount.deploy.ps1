@@ -3,17 +3,18 @@ param(
  [string]
  $deploymentName,
 
+ [Parameter(Mandatory=$True)]
  [string]
  $resourceGroupName,
 
  [string]
  $resourceGroupLocation,
 
-[string]
- $templateFilePath = "vnet.json",
+ [string]
+ $templateFilePath = "storaccount.json",
 
  [string]
- $parametersFilePath = "vnet.parameters.json",
+ $parametersFilePath = "storaccount.parameters.json",
 
  [string]
  $subscriptionId = "0bf50afc-0ad5-4e6e-b5ce-edc45ecf8a74"
@@ -23,7 +24,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 
-# Select subscription
+# select subscription
 Write-Host "Selecting subscription '$subscriptionId'";
 Select-AzureRmSubscription -SubscriptionID $subscriptionId;
 
@@ -46,8 +47,7 @@ else{
 # Start the deployment
 Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath
-} 
-else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $templateFilePath
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
+} else {
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -Name $deploymentName -TemplateFile $templateFilePath;
 }
